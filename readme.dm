@@ -3,8 +3,6 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Setup](#setup)
-- [Entity Relationship Diagram](#entity-relationship-diagram)
-- [API Documentation](#api-documentation)
 - [Summary](#summary)
 
 ## Overview
