@@ -1,0 +1,1 @@
+in hospital.js file in input wtite down symptoms or specialization
