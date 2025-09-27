@@ -1,15 +1,13 @@
-import redis from "../config/redis.js";
-
-const PREFIX = "session:";
+import { redis } from "../config/redis.js";
 
 export async function createSession(sessionId, userId, ttl = 3600) {
-  await redis.setex(PREFIX + sessionId, ttl, userId);
+  await redis.set(sessionId, userId, "EX", ttl);
 }
 
 export async function getSession(sessionId) {
-  return await redis.get(PREFIX + sessionId);
+  return await redis.get(sessionId);
 }
 
 export async function deleteSession(sessionId) {
-  return await redis.del(PREFIX + sessionId);
+  await redis.del(sessionId);
 }
