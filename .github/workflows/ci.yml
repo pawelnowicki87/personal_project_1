@@ -1,17 +1,51 @@
-name: CI Pipeline
+name: build-and-test
 
 on:
   push:
-    branches: [ "master", "main" ]
+    branches: [ master ]
   pull_request:
-    branches: [ "master", "main" ]
+    branches: [ master ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: hospital_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=5
+
+    env:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: hospital_db
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+
     steps:
-      - name: 🛠️ Checkout repository
+      - name: 📥 Checkout repository
         uses: actions/checkout@v3
 
       - name: 🟢 Use Node.js 20
@@ -22,8 +56,16 @@ jobs:
       - name: 📦 Install dependencies
         run: npm install
 
+      - name: ⏱️ Wait for PostgreSQL to be ready
+        run: |
+          for i in {1..20}; do
+            nc -z localhost 5432 && echo "✅ PostgreSQL is up!" && break
+            echo "⏳ Waiting for PostgreSQL..."
+            sleep 3
+          done
+
       - name: 🔎 Run ESLint
         run: npm run lint
 
-      - name: 🧪 Run tests
+      - name: 🧪 Run tests with coverage
         run: npm test
