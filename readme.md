@@ -54,20 +54,42 @@ It was built as part of the **Node.js-2025-01 Personal Project** and implements:
 ## 📁 Project Structure
 ```
 personal_project_1/
-├─ src/
-│ ├─ routes/
-│ ├─ middleware/
-│ ├─ services/
+├─ 📂 src/
+│ ├─ 📂 config/
+│ │ ├─ db.js
+│ │ ├─ redis.js
+│ │ └─ wait-for-db.js
+│ ├─ 📂 middleware/
+│ │ └─ auth.js
+│ ├─ 📂 routes/
+│ │ ├─ auth.js
+│ │ └─ homepage.js
+│ ├─ 📂 services/
+│ │ ├─ sessionService.js
+│ │ └─ utils/
+│ │ └─ token.js
 │ └─ app.js
-├─ db/
+│
+├─ 📂 db/
 │ ├─ schema.sql
-│ └─ init.js
-├─ tests/
-├─ Dockerfile
-├─ docker-compose.yml
-├─ package.json
-└─ docs/
-  └─ rd-diagram.png
+│ ├─ init.js
+│ └─ run_migrations.js
+│
+├─ 📂 tests/
+│ ├─ auth.test.js
+│ └─ homepage.test.js
+│
+├─ 📂 docs/
+│ └─ erd-diagram.png
+│
+├─ 📂 coverage/
+│
+├─ 📄 Dockerfile
+├─ 📄 docker-compose.yml
+├─ 📄 package.json
+├─ 📄 package-lock.json
+├─ 📄 .env
+└─ 📄 README.md
 ```
 
 ## 🛠️ Setup & Run Instructions
