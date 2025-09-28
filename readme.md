@@ -52,24 +52,23 @@ It was built as part of the **Node.js-2025-01 Personal Project** and implements:
 ---
 
 ## 📁 Project Structure
-
+```
 personal_project_1/
 ├─ src/
-│ ├─ routes/ # Express routes (auth, homepage, etc.)
-│ ├─ middleware/ # Authentication middleware
-│ ├─ services/ # Redis session service
-│ └─ app.js # Main application entry point
+│ ├─ routes/
+│ ├─ middleware/
+│ ├─ services/
+│ └─ app.js
 ├─ db/
-│ ├─ schema.sql # Database DDL script
-│ └─ init.js # Automatic schema initialization script
-├─ tests/ # Unit tests
+│ ├─ schema.sql
+│ └─ init.js
+├─ tests/
 ├─ Dockerfile
 ├─ docker-compose.yml
 ├─ package.json
 └─ docs/
-└─ erd-diagram.png # ERD diagram of the database
-
----
+  └─ rd-diagram.png
+```
 
 ## 🛠️ Setup & Run Instructions
 
@@ -82,7 +81,6 @@ cd personal_project_1
 Create a .env file in the root directory with the following variables:
 
 env
-Skopiuj kod
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=secret
 POSTGRES_DB=hospital_db
@@ -103,11 +101,11 @@ Node.js Backend
 
 Backend will be available at:
 👉 http://localhost:3000
+```
 
 🗄️ Database Schema (ERD)
 Below is the entity-relationship diagram of the database:
 
-(see docs/erd-diagram.png)
 ![ERD Diagram](./docs/erd-diagram.png)
 
 🗃️ Database Tables Overview
