@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(authRoutes);
 app.use(homepageRoutes);
 
-// run if there is db
 const startServer = async () => {
   try {
     await initDb();

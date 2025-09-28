@@ -1,4 +1,3 @@
-// ✅ tests/homepage.test.js
 import request from "supertest";
 import app from "../src/app.js";
 
@@ -9,7 +8,6 @@ describe("🏠 Protected Homepage", () => {
     const email = `protected${Date.now()}@example.com`;
     const password = "password123";
 
-    // Rejestracja + logowanie
     await request(app).post("/register").send({ email, password });
     const res = await request(app).post("/login").send({ email, password });
     token = res.body.token;
