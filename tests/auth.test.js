@@ -1,6 +1,5 @@
-// ✅ tests/auth.test.js
 import request from "supertest";
-import app from "../src/app.js"; // ✅ upewnij się, że eksportujesz `app` z app.js
+import app from "../src/app.js";
 
 let token;
 

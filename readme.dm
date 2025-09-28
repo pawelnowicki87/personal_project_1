@@ -118,16 +118,12 @@ POST /register
 
 Request Body:
 
-json
-Skopiuj kod
 {
   "email": "john@example.com",
   "password": "mySecurePassword"
 }
 Response:
 
-json
-Skopiuj kod
 {
   "user": {
     "id": 1,
@@ -139,16 +135,12 @@ POST /login
 
 Request Body:
 
-json
-Skopiuj kod
 {
   "email": "john@example.com",
   "password": "mySecurePassword"
 }
 Response:
 
-json
-Skopiuj kod
 {
   "token": "b6f7d8a2-2c6e-4d9e-93f5-79c1a6d4c3e1"
 }
@@ -156,14 +148,9 @@ Skopiuj kod
 POST /logout
 
 Headers:
-
-makefile
-Skopiuj kod
 Authorization: Bearer <token>
-Response:
 
-json
-Skopiuj kod
+Response:
 {
   "message": "Logged out"
 }
@@ -171,17 +158,13 @@ Skopiuj kod
 GET /
 
 Headers:
-
-makefile
-Skopiuj kod
 Authorization: Bearer <token>
-Response:
 
-json
-Skopiuj kod
+Response:
 {
   "message": "Hello user 1, welcome to homepage!"
 }
+
 🔐 Authentication Flow
 Register – User is created with a hashed password
 
@@ -196,7 +179,6 @@ The project includes unit tests with Jest and Supertest.
 
 ▶️ Run tests inside Docker (recommended):
 bash
-Skopiuj kod
 docker exec -it hospital_backend npm test
 ✅ This will:
 
