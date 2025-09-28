@@ -57,9 +57,6 @@ personal_project_1/
 └─ docs/
 └─ erd-diagram.png # ERD diagram of the database
 
-yaml
-Skopiuj kod
-
 ---
 
 ## 🛠️ Setup & Run Instructions
@@ -82,17 +79,15 @@ POSTGRES_PORT=5432
 
 REDIS_HOST=redis
 REDIS_PORT=6379
+
 3. Start the project with Docker
 bash
-Skopiuj kod
 docker compose up --build
+
 ✅ This will start:
-
 PostgreSQL database
-
 Redis server
-
-Node.js backend
+Node.js Backend
 
 Backend will be available at:
 👉 http://localhost:3000
@@ -101,6 +96,7 @@ Backend will be available at:
 Below is the entity-relationship diagram of the database:
 
 (see docs/erd-diagram.png)
+![ERD Diagram](./docs/erd-diagram.png)
 
 🗃️ Database Tables Overview
 Table	Description
@@ -112,54 +108,51 @@ doctor_availability	Doctor weekly schedule
 appointment	Appointment records with patient, doctor, and time
 
 📡 API Endpoints
+
 🔐 Authentication
+
 1. Register a new user
 POST /register
-
 Request Body:
-
 {
   "email": "john@example.com",
   "password": "mySecurePassword"
 }
 Response:
-
 {
   "user": {
     "id": 1,
     "email": "john@example.com"
   }
 }
+
 2. Login
 POST /login
-
 Request Body:
-
 {
   "email": "john@example.com",
   "password": "mySecurePassword"
 }
 Response:
-
 {
   "token": "b6f7d8a2-2c6e-4d9e-93f5-79c1a6d4c3e1"
 }
+
 3. Logout
 POST /logout
 
 Headers:
 Authorization: Bearer <token>
-
 Response:
 {
   "message": "Logged out"
 }
+
 4. Homepage (Protected)
 GET /
 
 Headers:
 Authorization: Bearer <token>
-
 Response:
 {
   "message": "Hello user 1, welcome to homepage!"
@@ -177,7 +170,7 @@ Logout – Session is deleted from Redis
 🧪 Running Tests
 The project includes unit tests with Jest and Supertest.
 
-▶️ Run tests inside Docker (recommended):
+▶️ Run tests inside Docker:
 bash
 docker exec -it hospital_backend npm test
 ✅ This will:
@@ -192,38 +185,28 @@ Current coverage: ~81.25%
 
 🐳 Docker Commands
 Start project:
-
 bash
-Skopiuj kod
 docker compose up --build
+
 Stop project:
-
 bash
-Skopiuj kod
 docker compose down --volumes
+
 Inspect database tables:
-
 bash
-Skopiuj kod
 docker exec -it hospital_db psql -U postgres -d hospital_db -c "\dt"
-Query data (example):
 
+Query data (example):
 bash
-Skopiuj kod
 docker exec -it hospital_db psql -U postgres -d hospital_db -c "SELECT * FROM users;"
+
 📜 Access Database from Docker
 You can connect to the PostgreSQL database running inside Docker directly:
-
 bash
-Skopiuj kod
 docker exec -it hospital_db psql -U postgres -d hospital_db
+
 Then run SQL commands like:
-
 sql
-Skopiuj kod
 SELECT * FROM users;
-📜 License
-This project was created as part of the Node.js-2025-01 course.
-Feel free to use and adapt it for educational purposes.
 
-👨‍💻 Author: Paweł – Node.js Backend Developer (Solvd Laba 2025)
+Author: Paweł – Node.js Backend Developer (Solvd Laba 2025)
