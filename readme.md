@@ -103,7 +103,7 @@ Backend will be available at:
 👉 http://localhost:3000
 ```
 
-🗄️ Database Schema (ERD)
+## 🗄️ Database Schema (ERD)
 Below is the entity-relationship diagram of the database:
 
 ![ERD Diagram](./docs/erd-diagram.png)
@@ -117,7 +117,7 @@ doctor	Doctors and their specialization
 doctor_availability	Doctor weekly schedule
 appointment	Appointment records with patient, doctor, and time
 
-📡 API Endpoints
+## 📡 API Endpoints
 
 🔐 Authentication
 
@@ -168,7 +168,7 @@ Response:
   "message": "Hello user 1, welcome to homepage!"
 }
 
-🔐 Authentication Flow
+## 🔐 Authentication Flow
 Register – User is created with a hashed password
 
 Login – Valid credentials return a session token
@@ -193,7 +193,7 @@ Ensure database and Redis connections are active
 
 Current coverage: ~81.25%
 
-🐳 Docker Commands
+## 🐳 Docker Commands
 Start project:
 bash
 docker compose up --build
@@ -210,7 +210,7 @@ Query data (example):
 bash
 docker exec -it hospital_db psql -U postgres -d hospital_db -c "SELECT * FROM users;"
 
-📜 Access Database from Docker
+## 📜 Access Database from Docker
 You can connect to the PostgreSQL database running inside Docker directly:
 bash
 docker exec -it hospital_db psql -U postgres -d hospital_db
