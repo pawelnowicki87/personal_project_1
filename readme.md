@@ -212,28 +212,33 @@ Current coverage: ~81.25%
 
 ## 🐳 Docker Commands
 Start project:
-bash
+```
 docker compose up --build
+```
 
 Stop project:
-bash
+```
 docker compose down --volumes
+```
 
 Inspect database tables:
-bash
+```
 docker exec -it hospital_db psql -U postgres -d hospital_db -c "\dt"
+```
 
 Query data (example):
-bash
+```
 docker exec -it hospital_db psql -U postgres -d hospital_db -c "SELECT * FROM users;"
+```
 
 ## 📜 Access Database from Docker
 You can connect to the PostgreSQL database running inside Docker directly:
-bash
+```
 docker exec -it hospital_db psql -U postgres -d hospital_db
+```
 
 Then run SQL commands like:
-sql
+```
 SELECT * FROM users;
-
-Author: Paweł – Node.js Backend Developer (Solvd Laba 2025)
+```
+Author: Paweł Nowicki – Node.js Backend Developer (Solvd Laba 2025)
