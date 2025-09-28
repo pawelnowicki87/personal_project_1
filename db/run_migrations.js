@@ -76,7 +76,7 @@ async function applySchema() {
   try {
     await ensureDatabaseExists();
     await applySchema();
-  } catch (e) {
+  } catch {
     process.exitCode = 1;
   }
 })();

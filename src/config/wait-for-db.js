@@ -18,7 +18,7 @@ async function waitForDB() {
       console.log("PostgreSQL is ready!");
       await client.end();
       return;
-    } catch (err) {
+    } catch {
       console.log(`Waiting for DB... attempt ${i}/${MAX_RETRIES}`);
       await new Promise((res) => setTimeout(res, WAIT_MS));
     }

@@ -42,10 +42,14 @@ router.post("/login", async (req, res) => {
     const result = await client.query("SELECT * FROM users WHERE email = $1", [email]);
     const user = result.rows[0];
 
-    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
     const match = await bcrypt.compare(password, user.password_hash);
-    if (!match) return res.status(401).json({ message: "Invalid credentials" });
+    if (!match) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
     const sessionId = uuidv4();
     await createSession(sessionId, user.id);
@@ -59,7 +63,9 @@ router.post("/login", async (req, res) => {
 
 router.post("/logout", async (req, res) => {
   const header = req.headers.authorization;
-  if (!header) return res.status(401).json({ message: "No token provided" });
+  if (!header) {
+    return res.status(401).json({ message: "No token provided" });
+  }
 
   const token = header.split(" ")[1];
   await deleteSession(token);
