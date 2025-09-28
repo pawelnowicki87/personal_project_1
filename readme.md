@@ -76,10 +76,10 @@ personal_project_1/
 
 ```bash
 git clone https://github.com/pawelnowicki87/personal_project_1.git
-cd personal_project_1
+```
 2. Create a .env file
 Create a .env file in the root directory with the following variables:
-
+```
 env
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=secret
@@ -89,10 +89,13 @@ POSTGRES_PORT=5432
 
 REDIS_HOST=redis
 REDIS_PORT=6379
+```
 
 3. Start the project with Docker
 bash
+```
 docker compose up --build
+```
 
 ✅ This will start:
 PostgreSQL database
@@ -101,7 +104,7 @@ Node.js Backend
 
 Backend will be available at:
 👉 http://localhost:3000
-```
+
 
 ## 🗄️ Database Schema (ERD)
 Below is the entity-relationship diagram of the database:
@@ -110,12 +113,14 @@ Below is the entity-relationship diagram of the database:
 
 🗃️ Database Tables Overview
 Table	Description
-users	Stores registered users (email, hashed password)
-patient	Patient details (name, email, phone, etc.)
-specialization	List of medical specializations
-doctor	Doctors and their specialization
-doctor_availability	Doctor weekly schedule
-appointment	Appointment records with patient, doctor, and time
+| Table Name             | Description                                                   |
+|------------------------|---------------------------------------------------------------|
+| **users**             | Stores registered users with email and hashed password        |
+| **patient**           | Contains patient details such as name, email, and phone number|
+| **specialization**    | List of available medical specializations                     |
+| **doctor**           | Stores doctors and their associated specialization             |
+| **doctor_availability** | Weekly schedule of each doctor (days, hours, availability)   |
+| **appointment**      | Appointment records linking patient, doctor, date, and time    |
 
 ## 📡 API Endpoints
 
@@ -124,29 +129,37 @@ appointment	Appointment records with patient, doctor, and time
 1. Register a new user
 POST /register
 Request Body:
+```
 {
   "email": "john@example.com",
   "password": "mySecurePassword"
 }
+```
 Response:
+```
 {
   "user": {
     "id": 1,
     "email": "john@example.com"
   }
 }
+```
 
 2. Login
 POST /login
 Request Body:
+```
 {
   "email": "john@example.com",
   "password": "mySecurePassword"
 }
+```
 Response:
+```
 {
-  "token": "b6f7d8a2-2c6e-4d9e-93f5-79c1a6d4c3e1"
+  "token": "xxxxxx-xxxxx-xxxxxx-xxxx-xxxxxxx"
 }
+```
 
 3. Logout
 POST /logout
@@ -154,9 +167,11 @@ POST /logout
 Headers:
 Authorization: Bearer <token>
 Response:
+```
 {
   "message": "Logged out"
 }
+```
 
 4. Homepage (Protected)
 GET /
@@ -164,9 +179,11 @@ GET /
 Headers:
 Authorization: Bearer <token>
 Response:
+```
 {
   "message": "Hello user 1, welcome to homepage!"
 }
+```
 
 ## 🔐 Authentication Flow
 Register – User is created with a hashed password
