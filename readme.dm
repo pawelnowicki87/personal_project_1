@@ -67,7 +67,7 @@ Skopiuj kod
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/personal_project_1.git
+git clone https://github.com/pawelnowicki87/personal_project_1.git
 cd personal_project_1
 2. Create a .env file
 Create a .env file in the root directory with the following variables:
