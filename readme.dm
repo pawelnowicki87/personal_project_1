@@ -1,4 +1,16 @@
-# 🏥 Hospital Appointment Scheduler
+# 📘 Hospital Appointment Scheduler
+
+## 📑 Table of Contents
+- [📌 Project Overview](#-project-overview)
+- [🧠 Tech Stack](#-tech-stack)
+- [🚀 Features](#-features)
+- [📁 Project Structure](#-project-structure)
+- [🛠️ Setup & Run Instructions](#️-setup--run-instructions)
+- [🗄️ Database Schema (ERD)](#️-database-schema-erd)
+- [📡 API Endpoints](#-api-endpoints)
+- [🧪 Running Tests](#-running-tests)
+- [🐳 Docker Commands](#-docker-commands)
+- [📜 Access Database from Docker](#-access-database-from-docker)
 
 ## 📌 Project Overview
 
