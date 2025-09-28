@@ -1,18 +1,247 @@
-# Hospital Appointment Scheduler
+# 🏥 Hospital Appointment Scheduler
 
-## Table of Contents
-- [Overview](#overview)
-- [Setup](#setup)
-- [Summary](#summary)
+## 📌 Project Overview
 
-## Overview
-The **Hospital Appointment Scheduler** is a system designed to manage patient appointments efficiently.  
-Patients can enter their symptoms or directly choose a specialization (e.g., cardiology, surgery, dermatology).  
+This is a **Node.js backend application** for managing hospital appointments, patients, doctors, and scheduling.  
+It was built as part of the **Node.js-2025-01 Personal Project** and implements:
 
-The system will:
-- Match symptoms to the appropriate medical specialization.
-- Consider doctor availability and working hours.
-- Distribute patients fairly among available doctors (balancing patient load).
-- Suggest the nearest available appointment slot based on appointment duration.  
+- ✅ User authentication (built from scratch)
+- ✅ PostgreSQL database with complete schema and relationships
+- ✅ Docker containerization for one-command startup
+- ✅ Redis integration for session management
+- ✅ REST API for user registration, login, logout, and protected routes
+- ✅ Unit tests with >50% coverage
 
-This documentation will be gradually expanded as new features are implemented throughout the course.
+---
+
+## 🧠 Tech Stack
+
+- **Node.js** – Backend runtime
+- **Express.js** – Web framework
+- **PostgreSQL** – Main relational database
+- **Redis** – Session and cache storage
+- **Docker & Docker Compose** – Container orchestration
+- **bcrypt** – Password hashing
+- **pg** – PostgreSQL client
+- **UUID** – Session token generation
+- **Jest + Supertest** – Unit testing
+
+---
+
+## 🚀 Features
+
+- 👤 **Custom Authentication** – Register, login, logout with hashed passwords
+- 🔑 **Session Tokens (JWT-like)** – Generated manually and stored in Redis
+- 🩺 **Hospital Domain** – Patients, doctors, appointments, availability
+- 📅 **Scheduling Logic** – Prevents overlapping appointments
+- 🐳 **One-Command Startup** – Everything runs with `docker compose up --build`
+- 🧪 **Unit Tests** – Coverage > 80%
+
+---
+
+## 📁 Project Structure
+
+personal_project_1/
+├─ src/
+│ ├─ routes/ # Express routes (auth, homepage, etc.)
+│ ├─ middleware/ # Authentication middleware
+│ ├─ services/ # Redis session service
+│ └─ app.js # Main application entry point
+├─ db/
+│ ├─ schema.sql # Database DDL script
+│ └─ init.js # Automatic schema initialization script
+├─ tests/ # Unit tests
+├─ Dockerfile
+├─ docker-compose.yml
+├─ package.json
+└─ docs/
+└─ erd-diagram.png # ERD diagram of the database
+
+yaml
+Skopiuj kod
+
+---
+
+## 🛠️ Setup & Run Instructions
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/personal_project_1.git
+cd personal_project_1
+2. Create a .env file
+Create a .env file in the root directory with the following variables:
+
+env
+Skopiuj kod
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=secret
+POSTGRES_DB=hospital_db
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+
+REDIS_HOST=redis
+REDIS_PORT=6379
+3. Start the project with Docker
+bash
+Skopiuj kod
+docker compose up --build
+✅ This will start:
+
+PostgreSQL database
+
+Redis server
+
+Node.js backend
+
+Backend will be available at:
+👉 http://localhost:3000
+
+🗄️ Database Schema (ERD)
+Below is the entity-relationship diagram of the database:
+
+(see docs/erd-diagram.png)
+
+🗃️ Database Tables Overview
+Table	Description
+users	Stores registered users (email, hashed password)
+patient	Patient details (name, email, phone, etc.)
+specialization	List of medical specializations
+doctor	Doctors and their specialization
+doctor_availability	Doctor weekly schedule
+appointment	Appointment records with patient, doctor, and time
+
+📡 API Endpoints
+🔐 Authentication
+1. Register a new user
+POST /register
+
+Request Body:
+
+json
+Skopiuj kod
+{
+  "email": "john@example.com",
+  "password": "mySecurePassword"
+}
+Response:
+
+json
+Skopiuj kod
+{
+  "user": {
+    "id": 1,
+    "email": "john@example.com"
+  }
+}
+2. Login
+POST /login
+
+Request Body:
+
+json
+Skopiuj kod
+{
+  "email": "john@example.com",
+  "password": "mySecurePassword"
+}
+Response:
+
+json
+Skopiuj kod
+{
+  "token": "b6f7d8a2-2c6e-4d9e-93f5-79c1a6d4c3e1"
+}
+3. Logout
+POST /logout
+
+Headers:
+
+makefile
+Skopiuj kod
+Authorization: Bearer <token>
+Response:
+
+json
+Skopiuj kod
+{
+  "message": "Logged out"
+}
+4. Homepage (Protected)
+GET /
+
+Headers:
+
+makefile
+Skopiuj kod
+Authorization: Bearer <token>
+Response:
+
+json
+Skopiuj kod
+{
+  "message": "Hello user 1, welcome to homepage!"
+}
+🔐 Authentication Flow
+Register – User is created with a hashed password
+
+Login – Valid credentials return a session token
+
+Access protected routes – Send Authorization: Bearer <token> header
+
+Logout – Session is deleted from Redis
+
+🧪 Running Tests
+The project includes unit tests with Jest and Supertest.
+
+▶️ Run tests inside Docker (recommended):
+bash
+Skopiuj kod
+docker exec -it hospital_backend npm test
+✅ This will:
+
+Run all tests
+
+Generate a coverage report (/coverage/index.html)
+
+Ensure database and Redis connections are active
+
+Current coverage: ~81.25%
+
+🐳 Docker Commands
+Start project:
+
+bash
+Skopiuj kod
+docker compose up --build
+Stop project:
+
+bash
+Skopiuj kod
+docker compose down --volumes
+Inspect database tables:
+
+bash
+Skopiuj kod
+docker exec -it hospital_db psql -U postgres -d hospital_db -c "\dt"
+Query data (example):
+
+bash
+Skopiuj kod
+docker exec -it hospital_db psql -U postgres -d hospital_db -c "SELECT * FROM users;"
+📜 Access Database from Docker
+You can connect to the PostgreSQL database running inside Docker directly:
+
+bash
+Skopiuj kod
+docker exec -it hospital_db psql -U postgres -d hospital_db
+Then run SQL commands like:
+
+sql
+Skopiuj kod
+SELECT * FROM users;
+📜 License
+This project was created as part of the Node.js-2025-01 course.
+Feel free to use and adapt it for educational purposes.
+
+👨‍💻 Author: Paweł – Node.js Backend Developer (Solvd Laba 2025)
