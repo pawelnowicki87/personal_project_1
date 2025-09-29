@@ -45,35 +45,35 @@ jobs:
       REDIS_PORT: 6379
 
     steps:
-      - name: 📥 Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: 🟢 Use Node.js 20
+      - name: Use Node.js 20
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: ⏱️ Wait for PostgreSQL to be ready
+      - name: Wait for PostgreSQL to be ready
         run: |
           for i in {1..20}; do
-            nc -z 127.0.0.1 5432 && echo "✅ PostgreSQL is up!" && break
+            nc -z 127.0.0.1 5432 && echo "PostgreSQL is up!" && break
             echo "⏳ Waiting for PostgreSQL..."
             sleep 3
           done
 
-      - name: ⏱️ Wait for Redis to be ready
+      - name: Wait for Redis to be ready
         run: |
           for i in {1..20}; do
-            nc -z 127.0.0.1 6379 && echo "✅ Redis is up!" && break
-            echo "⏳ Waiting for Redis..."
+            nc -z 127.0.0.1 6379 && echo "Redis is up!" && break
+            echo "Waiting for Redis..."
             sleep 3
           done
 
-      - name: 🔎 Run ESLint
+      - name: Run ESLint
         run: npm run lint
 
-      - name: 🧪 Run tests with coverage
+      - name: Run tests with coverage
         run: npm test

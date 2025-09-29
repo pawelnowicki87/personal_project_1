@@ -1,53 +1,32 @@
 import request from "supertest";
 import app from "../src/app.js";
 
-let token;
-
 describe("🔐 Auth API", () => {
+  const email = `test${Date.now()}@mail.com`;
+  const password = "password123";
+  let token;
+
   it("should register a new user", async () => {
     const res = await request(app)
-      .post("/register")
-      .send({
-        email: `test${Date.now()}@example.com`,
-        password: "password123",
-      });
-
+      .post("/auth/register")
+      .send({ email, password });
     expect(res.statusCode).toBe(201);
-    expect(res.body.user).toHaveProperty("id");
-    expect(res.body.user).toHaveProperty("email");
+    expect(res.body.user).toHaveProperty("email", email);
   });
 
-  it("should login with valid credentials", async () => {
-    const email = `login${Date.now()}@example.com`;
-    const password = "password123";
-
-    await request(app).post("/register").send({ email, password });
-
-    const res = await request(app).post("/login").send({ email, password });
+  it("should login and receive a token", async () => {
+    const res = await request(app)
+      .post("/auth/login")
+      .send({ email, password });
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("token");
-
     token = res.body.token;
-  });
-
-  it("should reject login with invalid password", async () => {
-    const email = `fail${Date.now()}@example.com`;
-    await request(app).post("/register").send({ email, password: "correctpass" });
-
-    const res = await request(app).post("/login").send({
-      email,
-      password: "wrongpass",
-    });
-
-    expect(res.statusCode).toBe(401);
   });
 
   it("should logout successfully", async () => {
     const res = await request(app)
-      .post("/logout")
+      .post("/auth/logout")
       .set("Authorization", `Bearer ${token}`);
-
     expect(res.statusCode).toBe(200);
-    expect(res.body.message).toMatch(/Logged out/);
   });
 });

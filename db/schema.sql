@@ -1,3 +1,9 @@
+CREATE TABLE IF NOT EXISTS users (
+  id BIGSERIAL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 
 CREATE EXTENSION IF NOT EXISTS btree_gist;
 
@@ -33,8 +39,8 @@ CREATE TABLE IF NOT EXISTS doctor (
   email                  VARCHAR(255) NOT NULL UNIQUE,
   phone                  VARCHAR(50),
   specialization_id      BIGINT NOT NULL REFERENCES specialization(specialization_id) ON UPDATE CASCADE ON DELETE RESTRICT,
-  consultation_duration  INT NOT NULL DEFAULT 20,  
-  working_hours          VARCHAR(100),              
+  consultation_duration  INT NOT NULL DEFAULT 20,
+  working_hours          VARCHAR(100),
   created_at             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at             TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   CONSTRAINT doctor_email_chk CHECK (position('@' in email) > 1),
@@ -45,7 +51,7 @@ CREATE INDEX IF NOT EXISTS idx_doctor_specialization ON doctor(specialization_id
 CREATE TABLE IF NOT EXISTS doctor_availability (
   availability_id  BIGSERIAL PRIMARY KEY,
   doctor_id        BIGINT NOT NULL REFERENCES doctor(doctor_id) ON UPDATE CASCADE ON DELETE CASCADE,
-  day_of_week      INT NOT NULL, 
+  day_of_week      INT NOT NULL,
   start_time       TIME NOT NULL,
   end_time         TIME NOT NULL,
   created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -59,7 +65,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_doctor_availability_slot
 CREATE TABLE IF NOT EXISTS appointment (
   appointment_id  BIGSERIAL PRIMARY KEY,
   patient_id      BIGINT NOT NULL REFERENCES patient(patient_id) ON UPDATE CASCADE ON DELETE RESTRICT,
-  doctor_id       BIGINT NOT NULL REFERENCES doctor(doctor_id)   ON UPDATE CASCADE ON DELETE RESTRICT,
+  doctor_id       BIGINT NOT NULL REFERENCES doctor(doctor_id) ON UPDATE CASCADE ON DELETE RESTRICT,
   date            DATE NOT NULL,
   start_time      TIME NOT NULL,
   end_time        TIME NOT NULL,
@@ -71,11 +77,28 @@ CREATE TABLE IF NOT EXISTS appointment (
 );
 
 ALTER TABLE appointment
-  ADD COLUMN IF NOT EXISTS start_ts TIMESTAMP GENERATED ALWAYS AS (date::timestamp + start_time) STORED;
-ALTER TABLE appointment
-  ADD COLUMN IF NOT EXISTS end_ts   TIMESTAMP GENERATED ALWAYS AS (date::timestamp + end_time)   STORED;
-ALTER TABLE appointment
-  ADD COLUMN IF NOT EXISTS appt_range TSRANGE GENERATED ALWAYS AS (tsrange(start_ts, end_ts, '[)')) STORED;
+  ADD COLUMN IF NOT EXISTS appt_range TSRANGE;
+
+CREATE OR REPLACE FUNCTION update_appt_range()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.appt_range := tsrange(
+    NEW.date::timestamp + NEW.start_time,
+    NEW.date::timestamp + NEW.end_time,
+    '[)'
+  );
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'tr_update_appt_range') THEN
+    CREATE TRIGGER tr_update_appt_range
+    BEFORE INSERT OR UPDATE ON appointment
+    FOR EACH ROW EXECUTE FUNCTION update_appt_range();
+  END IF;
+END$$;
 
 CREATE UNIQUE INDEX IF NOT EXISTS uq_doctor_exact_slot
   ON appointment(doctor_id, date, start_time, end_time);

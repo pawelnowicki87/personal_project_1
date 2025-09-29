@@ -19,6 +19,29 @@ services:
       - db
       - redis
 
+  backend-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hospital_backend_tests
+    command: ["npm", "test"]
+    environment:
+      - NODE_ENV=test
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=hospital_db
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    env_file:
+      - .env.test
+    depends_on:
+      - db
+      - redis
+    # 👇 dzięki temu testy nie odpalą się przy `up`
+    profiles: ["test"]
+
   db:
     image: postgres:16
     container_name: hospital_db
@@ -31,6 +54,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
 
   redis:
     image: redis:latest
