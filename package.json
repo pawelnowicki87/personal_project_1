@@ -25,6 +25,7 @@
     "start": "node src/server.js",
     "db:migrate": "node db/run_migrations.js",
     "db:seed": "node db/seed.js",
+    "seed": "npm run db:seed",
     "test": "npm run db:migrate && npm run db:seed && cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "lint": "eslint ."
   }
