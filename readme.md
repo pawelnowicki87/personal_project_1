@@ -194,7 +194,7 @@ POST /logout
 | POST   | /login    | Logs in and returns a session token | 200          | 401        |
 | POST   | /logout   | Logs out and invalidates the token  | 200          | 401        |
 
-POST /register
+#### POST /register
 
 Request Body:
 ```
@@ -213,7 +213,7 @@ Response:
   }
 }
 ```
-POST /login
+#### POST /login
 
 Request Body:
 ```
@@ -244,7 +244,7 @@ DELETE /patients/:id
 | PUT    | /patients/:id | Updates an existing patient      | 200          | 400        |
 | DELETE | /patients/:id | Deletes a patient                | 200          | 404        |
 
-POST /patients
+#### POST /patients
 
 Request Body:
 ```
@@ -310,7 +310,7 @@ DELETE /appointments/:id
 | PUT    | /appointments/:id | Updates an existing appointment (TBD) | 200          | 400        |
 | DELETE | /appointments/:id | Cancels (deletes) an appointment      | 200          | 404        |
 
-POST /appointments
+#### POST /appointments
 
 Request Body:
 ```
@@ -339,7 +339,7 @@ GET /
 | ------ | -------- | ------------------------- | ------------ | ---------- |
 | GET    | /        | Returns a welcome message | 200          | 401        |
 
-GET /
+#### GET /
 
 Response:
 ```
