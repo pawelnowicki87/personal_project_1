@@ -22,10 +22,10 @@
     "supertest": "^6.3.3"
   },
   "scripts": {
-  "start": "node src/server.js",
-  "db:migrate": "node db/run_migrations.js",
-  "seed": "node db/seed.js",
-  "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --coverage",
-  "lint": "eslint ."
+    "start": "node src/server.js",
+    "db:migrate": "node db/run_migrations.js",
+    "db:seed": "node db/seed.js",
+    "test": "npm run db:migrate && npm run db:seed && cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "lint": "eslint ."
   }
 }
